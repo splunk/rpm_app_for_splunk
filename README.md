@@ -1,1 +1,1 @@
-# splunk_app_for_rpm
+The Splunk App for RPM (Robotic Process Monitoring) for RPA deployments.
