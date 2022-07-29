@@ -1,0 +1,157 @@
+<form version="1.1" stylesheet="custom_layout_overlay_single.css" theme="dark" script="run_action.js">
+  <label>RPM Robot Drilldown - What just happened?</label>
+  <description>RPA Action Center - Investigate and Take actions in UiPath from Splunk Data</description>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel id="investigation">
+      <title>Time Series of Errors (Exceptions Annotations) For $robotName$   -   Use Pan and Zoom to Select Time Ranges</title>
+      <description>Set search terms by populating a form with one or more sets of radio buttons.</description>
+      <input type="time" token="time_range1" searchWhenChanged="true">
+        <label>Change Timeline of Search</label>
+        <default>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </default>
+      </input>
+      <input type="radio" token="logType" searchWhenChanged="true">
+        <label>Select a logType:</label>
+        <default>*</default>
+        <choice value="*">All</choice>
+        <choice value="User">Developer Defined Messages</choice>
+        <choice value="Default">System Default Messages</choice>
+      </input>
+      <chart>
+        <search type="annotation">
+          <query>
+                  index=uipath robotName=$robotName$ (level="Warning" OR level="Error" OR level="Information" OR level=Fatal) logType=$logType$ | eval annotation_label = message | eval annotation_category = level | table _time annotation_label annotation_category
+              </query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$robotName$ | timechart count</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <selection>
+          <set token="selection.earliest">$start$</set>
+          <set token="selection.latest">$end$</set>
+          <set token="start.count">$start.count$</set>
+          <set token="end.count">$end.count$</set>
+        </selection>
+        <option name="charting.annotation.categoryColors">{"Error":"0xff3300","Fatal":"0xff3300","Warning":"0xff9900","Information":"0x36b536"}</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.masterLegend">null</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.seriesColors">[#30D5C8]</option>
+        <option name="height">200</option>
+        <option name="refresh.display">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+    <h2>Below are the System CPU, Memory, and Disk Utilization for the Robot.  Are there any Resource issues causing the Errors above?</h2>
+  </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>CPU for $robotName$ - Percentage % vs. Average (Avg)</title>
+        <search>
+          <query>index=main sourcetype="Perfmon:CPU Load" | bucket _time span=1m | stats avg(Value) as "Avg CPU" max(Value) as "Max CPU" by _time</query>
+          <earliest>$selection.earliest$</earliest>
+          <latest>$selection.latest$</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.fields">splunkd</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.overlayFields">cpu_avg</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.fieldColors">{"total": 0x639BF1, "splunkd":0xFF5A09}</option>
+        <option name="charting.legend.masterLegend">null</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">300</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Memory (RAM) - $robotName$  - Current Max vs Avg</title>
+        <search>
+          <query>index=main source="Perfmon:Available Memory" counter="Available Bytes" sourcetype="Perfmon:Available Memory" | eval megabytes=((Value/1024)/1024) | timechart avg(megabytes) as "Avg Memory" max(megabytes) as "Max Memory"</query>
+          <earliest>$selection.earliest$</earliest>
+          <latest>$selection.latest$</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.fields">splunkd</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.overlayFields">memory_avg</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.fieldColors">{"total": 0x639BF1, "splunkd":0xFF5A09}</option>
+        <option name="charting.legend.masterLegend">null</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">300</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Disk Availability % - $robotName$ - Percentage %</title>
+        <search>
+          <query>index=main source=Perfmon:* source="Perfmon:Free Disk Space" counter="% Free Space" | stats avg(Value) | fieldformat Percent=tostring(Percent) + "%"</query>
+          <earliest>$selection.earliest$</earliest>
+          <latest>$selection.latest$</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.fields">splunkd</option>
+        <option name="charting.chart">radialGauge</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.overlayFields">disk_avg</option>
+        <option name="charting.chart.rangeValues">[0,30,60,100]</option>
+        <option name="charting.chart.style">minimal</option>
+        <option name="charting.fieldColors">{"total": 0x639BF1, "splunkd":0xFF5A09}</option>
+        <option name="charting.gaugeColors">["0xdc4e41","0xf8be34","0x53a051"]</option>
+        <option name="charting.legend.masterLegend">null</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">300</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Latest Events for Robot - $robotName$</title>
+      <table>
+        <search>
+          <query>index=uipath robotName=$robotName$ logType=$logType$ | table _time logType, machineName, message, processName, robotName, windowsIdentity | eval _time=strftime(_time, "%I:%M:%S %p, %b %d %Y")</query>
+          <earliest>$selection.earliest$</earliest>
+          <latest>$selection.latest$</latest>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

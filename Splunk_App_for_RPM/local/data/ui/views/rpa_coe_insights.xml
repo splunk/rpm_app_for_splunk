@@ -1,0 +1,465 @@
+<form theme="dark" script="ex36-tooltips-and-popovers/ex36-tooltips-and-popovers.js" stylesheet="ex36-tooltips-and-popovers/ex36-tooltips-and-popovers.csss">
+  <label>RPM CoE Insights</label>
+  <description>Monitor Bots, Queues, Jobs, and Exceptions</description>
+  <fieldset submitButton="false">
+    <input type="time" token="coe_field1" searchWhenChanged="true">
+      <label>Select Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="coe_field2" searchWhenChanged="true">
+      <label>Select Your Robots</label>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>robotName</fieldForLabel>
+      <fieldForValue>robotName</fieldForValue>
+      <search>
+        <query>index=uipath sourcetype=uipath_logs | fields robotName | dedup robotName | table robotName</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Total Bots Running</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count and total number of Events from that Bot on a Time Series" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <single>
+        <search>
+          <query>index=uipath robotName=$coe_field2$ | dedup robotName | stats count(robotName)</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+        </search>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Total Number of Bots</option>
+        <option name="unit">Bots</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+      <chart>
+        <title>Events per Bot</title>
+        <search>
+          <query>index=uipath sourcetype=uipath robotName=$coe_field2$ | timechart count by robotName limit=20 useother=f usenull=f</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.axisTitleX.text">Total Events per Bot</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.fieldDashStyles">{"200":"shortDash", "201":"shortDot"}</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Bots with Errors - Click to Drilldown</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count for Error Events.  Also, those Errors over a Time Series" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <single>
+        <search>
+          <query>index=uipath sourcetype=uipath level=Error OR level=Fatal robotName=$coe_field2$ | fields robotName, level | dedup robotName | stats count(robotName)</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">all</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">none</option>
+        <option name="trendInterval">-1d</option>
+        <option name="underLabel">Number of Bots with Error Messages</option>
+        <option name="unit">Bots</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+      <chart>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | fields robotName, level | timechart count by robotName useother=f usenull=f</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>interval</refreshType>
+        </search>
+        <option name="charting.axisTitleX.text">Bot Errors per Day</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.display">none</option>
+        <drilldown>
+          <link target="_blank">/app/Splunk_App_for_RPM/rpa_drilldown?robotName=$click.name2$&amp;earliest=$earliest$&amp;latest=$latest$</link>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <title>RPA Queue Errors Count</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="Errors in Queues for the selected Robots.  These Queue Errors are also shown across a Time Series" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <single>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | dedup queueName | stats count(queueName)</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">all</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">none</option>
+        <option name="trendInterval">-1h</option>
+        <option name="underLabel">RPA Processing Queues with Errors</option>
+        <option name="unit">Queue Errors</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+      <chart>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | timechart count by queueName limit=10 usenull=f useother=f</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.axisTitleX.text">Process Errors per Day</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Process Errors Counts by Robot Name</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count and number of Events for those Robots" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <table>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | stats count by robotName, processName | sort -count | stats list(processName) as "Process Name", list(count) as count, sum(count) as total by robotName | sort -total</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+        </search>
+        <option name="count">4</option>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <link target="_blank">/app/Splunk_App_for_RPM/rpa_drilldown?robotName=$click.value$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>RPA Total Exceptions (Business + Technical)</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count and number of Events for those Robots" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <single>
+        <search>
+          <query>index=uipath robotName=$coe_field2$ | fields logF_ExceptionType | stats count(logF_ExceptionType)</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">all</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">none</option>
+        <option name="trendInterval">-1h</option>
+        <option name="underLabel">Total Count of RPA Exceptions</option>
+        <option name="unit">Exceptions</option>
+        <option name="useThousandSeparators">1</option>
+        <drilldown>
+          <link target="_blank">/app/Splunk_app_for_RPA/rpa_drilldown</link>
+        </drilldown>
+      </single>
+      <chart>
+        <title>RPA Exceptions by Type (Business / Technical)</title>
+        <search>
+          <query>index=uipath robotName=$coe_field2$ | fields logF_ExceptionType | timechart count by logF_ExceptionType limit=10</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.axisTitleX.text">RPA Exceptions per Day</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">none</option>
+        <drilldown>
+          <link target="_blank">/app/Splunk_app_for_RPA/rpa_drilldown</link>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Errors by Process Name - with Trend</title>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count and number of Events for those Robots" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <table>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | chart count sparkline(count, 1h) as trend by processName | sort -count</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+          <refresh>10s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <!-- Set span for each sparkline datapoint to be 1 hour -->
+        <!-- Set sparkline options here; make sure that field matches field name of the search results -->
+        <option name="count">6</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">none</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format field="trend" type="sparkline">
+          <option name="type">bar</option>
+          <option name="height">40</option>
+          <option name="colorMap">
+            <option name="2000:">#5379AF</option>
+            <option name=":1999">#9ac23c</option>
+          </option>
+          <option name="barWidth">5px</option>
+        </format>
+        <drilldown>
+          <link target="_blank">/app/Splunk_app_for_RPA/rpa_drilldown</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <style>
+          .custom-tooltip{
+              display: inline;
+              position: absolute;
+          }
+          .custom-tooltip:hover:after{
+            background: #333 ;
+            background: rgba(0,0,0,.8) ;
+            border-radius: 5px ;
+            bottom: 26px ;
+            color: #fff ;
+            content: attr(title) ;
+            left: 20% ;
+            padding: 5px 15px ;
+            position: absolute ;
+            z-index: 98;
+            width: 220px;
+        }
+        .custom-tooltip:hover:before{
+          border: solid;
+          border-color: #333 transparent;
+          border-width: 6px 6px 0 6px;
+          bottom: 20px ;
+          content: "" ;
+          left: 50% ;
+          position: absolute ;
+          z-index: 99 ;
+        }
+        </style>
+        <a title="This panel shows Robot Count and number of Events for those Robots" class="custom-tooltip">Explain Panel</a>
+      </html>
+      <event>
+        <title>Most Recent RPA Errors - Click &gt; for Full Error Log</title>
+        <search>
+          <query>index=uipath level=Error OR level=Fatal robotName=$coe_field2$ | fields + robotName, processName, machineName, queueName, windowsIdentity</query>
+          <earliest>$coe_field1.earliest$</earliest>
+          <latest>$coe_field1.latest$</latest>
+        </search>
+        <fields>robotName, processName, machineName, queueName, windowsIdentity</fields>
+        <option name="count">5</option>
+        <option name="refresh.display">none</option>
+        <option name="type">table</option>
+      </event>
+    </panel>
+  </row>
+</form>

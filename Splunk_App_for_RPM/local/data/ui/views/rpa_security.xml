@@ -1,0 +1,129 @@
+<form theme="dark">
+  <label>RPA Security Overview</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="coe_field2" searchWhenChanged="true">
+      <label>Select Your Robots</label>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>robotName</fieldForLabel>
+      <fieldForValue>robotName</fieldForValue>
+      <search>
+        <query>index=rpa sourcetype=uipath | fields robotName | dedup robotName | table robotName</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <!-- 2 elements are grouped into 1 column -->
+      <chart>
+        <title>Robot Logins (Success/Failure)</title>
+        <search>
+          <query>index=main source="WinEventLog:Security" eventtype=windows_logon* eventtype=windows_logon_*| top limit=20 action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <link>/app/simple_xml_examples/search?q=index=_internal earliest=-h | stats count</link>
+        </drilldown>
+      </chart>
+      <single>
+        <title>Elevated Permissions</title>
+        <search>
+          <query>index=main source="C:\\Users\\Administrator\\AppData\\Local\\UiPath\\Logs\\*Execution.log" OR source="WinEventLog:Security" Account_Domain!="-" subject="Special privileges assigned to new logon" | stats count</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="drilldown">all</option>
+        <option name="field">count</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">events in the past day</option>
+        <option name="unit">events</option>
+        <option name="unitPosition">after</option>
+        <drilldown>
+          <link>/app/simple_xml_examples/search?q=index=_internal earliest=-h | timechart count</link>
+        </drilldown>
+      </single>
+    </panel>
+    <panel>
+      <table>
+        <title>Robot Activity Monitoring</title>
+        <search>
+          <query>index=main source="WinEventLog:Security" eventtype=windows_logon_failure | chart count sparkline by name | sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <!-- Set sparkline options here; make sure that field matches field name of the search results -->
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+        <format field="sparkline" type="sparkline">
+          <option name="lineColor">#5379af</option>
+          <option name="fillColor">#CCDDFF</option>
+          <option name="lineWidth">1</option>
+          <option name="maxSpotColor">#A2FFA2</option>
+          <option name="spotRadius">3</option>
+          <option name="height">25</option>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Logins by Auth Method</title>
+        <search>
+          <query>index=main source="WinEventLog:Security"| top limit=20 authentication_method</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Elevated Privileges by "Account Name"</title>
+      <chart>
+        <search>
+          <query>index=main source="C:\\Users\\Administrator\\AppData\\Local\\UiPath\\Logs\\*Execution.log" OR source="WinEventLog:Security" Account_Domain!="-" subject="Special privileges assigned to new logon" | timechart count by Account_Name | fields - SYSTEM, OTHER</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <event>
+        <title>Robot Audit Trail - Most current Events from $robotName$</title>
+        <search>
+          <query>index=main source="WinEventLog:Security" | lookup windows_signature_lookup signature_id AS Event_Code OUTPUTNEW signature_id,signature,CategoryString,action,result | fields + _time, user, signature, src_ip, action, host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <fields>user, signature, src_ip, host, action</fields>
+        <option name="refresh.display">progressbar</option>
+        <option name="type">table</option>
+      </event>
+    </panel>
+  </row>
+</form>

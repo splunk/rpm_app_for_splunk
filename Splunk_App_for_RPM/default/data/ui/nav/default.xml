@@ -1,0 +1,14 @@
+<nav search_view="search">
+  <view name="rpa_business_roi" default='true' />
+  <collection label="RPM CoE Insights">
+	  <view name="rpa_coe_insights" />
+	  <view name="rpa_jobs" />
+	  <view name="rpa_queues" />
+	  <view name="rpa_processes" />
+  </collection>
+  <view name="rpa_security" />
+  <view name="splunk_for_security" />
+  <view name="rpm_for_itops_" />
+  <view name="app_configuration" />
+  <view name="dashboards" />
+</nav>

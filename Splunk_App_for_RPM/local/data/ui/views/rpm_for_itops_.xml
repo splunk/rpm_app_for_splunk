@@ -1,0 +1,87 @@
+<form version="1.1" theme="dark">
+  <label>RPM for IT OPS</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="coe_field2" searchWhenChanged="true">
+      <label>Select Your Robots</label>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>robotName</fieldForLabel>
+      <fieldForValue>robotName</fieldForValue>
+      <search>
+        <query>index=uipath sourcetype=uipath | fields robotName | dedup robotName | table robotName</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>CPU Usage by VM/VDI</title>
+        <search>
+          <query>index=main sourcetype="Perfmon:CPU Load" | timechart max(Value) as "Max CPU" by host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Memory Usage by VM/VDI</title>
+        <search>
+          <query>index=main source="Perfmon:Available Memory" counter="Available Bytes" sourcetype="Perfmon:Available Memory" | eval megabytes=((Value/1024)/1024) | timechart max(megabytes) as "Max Memory" by host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Disk Usage by VM/VDI</title>
+        <search>
+          <query>index=main source=Perfmon:* source="Perfmon:Free Disk Space" counter="% Free Space" | timechart avg(Value) by host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>MB transfer avg for all Hosts</title>
+      <chart>
+        <search>
+          <query>sourcetype="Perfmon:Network Interface" (host="*")  counter="Bytes Sent/sec" | eval MB=(Value/1024/1024) | timechart  avg(MB) as MB by host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</form>
