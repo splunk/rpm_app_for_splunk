@@ -6,9 +6,9 @@ This App is designed to provide quick out the box monitoring of RPA deployments.
 
 The Splunk App for Robotic Process Automation (RPM) is designed to work with the following data sources:
 
-* [GitHub Audit Log Collection](./docs/ghe_audit_logs.MD): UiPath webhook forwarding.
-* [Github.com Webhooks](./docs/github_webhooks.MD): Windows Security Logs.
-* [Github Enterprise Collectd monitoring](./docs/splunk_collectd_forwarding_for_ghes.MD): UiPath Orchestrator Logs of Robot Executions.
+* [UiPath Webhook Configuration](./docs/ghe_audit_logs.MD): UiPath webhook forwarding.
+* [Splunk Windows Universal Forwarder](./docs/github_webhooks.MD): Windows Security Logs.
+* [Splunk File path Monitoring](./docs/splunk_collectd_forwarding_for_ghes.MD): UiPath Orchestrator Logs of Robot Executions.
 
 ## Dashboard Instructions
 
@@ -22,10 +22,10 @@ The Splunk App for RPM is available for download from [Splunkbase](https://splun
 
 ![Settings>Advanced Search>Search macros](./docs/images/macros.png)
 
-1. The GitHub App for Splunk uses macros so that index and `sourcetype` names don't need to be updated in each dashboard panel. You'll need to update the macros to account for your selected indexes.
-1. The macro `github_source` is the macro for all audit log events, whether from GitHub Enterprise Cloud or Server. The predefined macro includes examples of **BOTH**. Update to account for your specific needs.
-1. The macro `github_webhooks` is the macro used for all webhook events. Since it is assuming a single index for all webhook events, that is the predefined example, but update as needed.
-1. Finally, the macro `github_collectd` is the macro used for all `collectd` metrics sent from GitHub Enterprise Server. Please update accordingly.
+1. The Splunk App for RPM V1 uses a static index `uipath` which will need to be configured in Splunk Cloud or Splunk. 
+2. The UiPath Webhook Configuration forwards UiPath events to a Splunk HEC Collector.  That will need to be configured on port :8088 as a data input in Splunk Cloud or Splunk Enterprise.
+3. The Orchestrator path `[monitor://C:\Users\Administrator\AppData\Local\UiPath\Logs\*.log]` is the execution path for all Robot events. The 'sourcetype' should be set to 'uipath_logs' to match the extraction configuration within the App to have the JSON parse correctly.
+1. Finally, the Windows `Security` logs should be configured to understand the Authentication and Access of the Robots. This requires the Splunk Universal Forwarder to be run on Robot Windows Machines (not just the Orchestrator).  NOTE: Other Authentications can be configured such as Active Directory to drive the Security Dashboards.  Splunk CIM compliant sources can populate the 'Authentication" datamodel which can be used by this App and Enterprise Security (SIEM).
 
 ### Integration Overview dashboard
 
@@ -61,4 +61,4 @@ There is an *Integration Overview* dashboard listed under *Dashboards* that allo
 
 ## Support
 
-Support for GitHub App for Splunk is run through [GitHub Issues](https://github.com/splunk/github_app_for_splunk/issues). Please open a new issue for any support issues or for feature requests. You may also open a Pull Request if you'd like to contribute additional dashboards, eventtypes for webhooks, or enhancements you may have.
+Support for Splunk App for RPM is run through [GitHub Issues](https://github.com/splunk/splunk_app_for_rpm/issues). Please open a new issue for any support issues or for feature requests. You may also open a Pull Request if you'd like to contribute additional dashboards, eventtypes for webhooks, or enhancements you may have.
