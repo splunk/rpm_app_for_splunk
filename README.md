@@ -1,20 +1,20 @@
-# GitHub App for Splunk
+# Splunk App for Robotic Process Monitor (RPM) for RPA
 
-The GitHub App for Splunk is a collection of out of the box dashboards and Splunk knowledge objects designed to give GitHub Admins and platform owners immediate visibility into GitHub.
+The Splunk App for Robotic Process Monitoring (RPM) is a collection of Splunk Dashboards and Data Collection configurations.  The App also allows you to automate actions to the UiPath API based on data in a Splunk index.
 
-This App is designed to work across multiple GitHub data sources however not all all required. You may choose to only collect a certain set of data and the parts of this app that utilize that set will function, while those that use other data sources will not function correctly, so please only use the Dashboards that relate to the data you are collecting.
+This App is designed to provide quick out the box monitoring of RPA deployments.  The focus is to ensure Reliability, Performance, and Security for RPA deployments.  Within a few clicks any RPA admin, operator, or developer can remidate any error that impacts RPA automations.  Splunk allows you to corrilate Infrastructure, Authentication and Access with a UiPath deployment (Orchistrators, Robots, Queues, Jobs, and Tasks)
 
-The GitHub App for Splunk is designed to work with the following data sources:
+The Splunk App for Robotic Process Automation (RPM) is designed to work with the following data sources:
 
-* [GitHub Audit Log Collection](./docs/ghe_audit_logs.MD): Audit logs from GitHub Enterprise Cloud and Server.
-* [Github.com Webhooks](./docs/github_webhooks.MD): A select set of webhook events like Push, PullRequest, Code Scanning and Repo.
-* [Github Enterprise Collectd monitoring](./docs/splunk_collectd_forwarding_for_ghes.MD): Performance and Infrastructure metrics from Github Enterprise Server.
+* [GitHub Audit Log Collection](./docs/ghe_audit_logs.MD): UiPath webhook forwarding.
+* [Github.com Webhooks](./docs/github_webhooks.MD): Windows Security Logs.
+* [Github Enterprise Collectd monitoring](./docs/splunk_collectd_forwarding_for_ghes.MD): UiPath Orchestrator Logs of Robot Executions.
 
 ## Dashboard Instructions
 
 ### Installation
 
-The GitHub App for Splunk is available for download from [Splunkbase](https://splunkbase.splunk.com/app/5596/). For Splunk Cloud, refer to [Install apps in your Splunk Cloud deployment](https://docs.splunk.com/Documentation/SplunkCloud/latest/Admin/SelfServiceAppInstall). For non-Splunk Cloud deployments, refer to the standard methods for Splunk Add-on installs as documented for a [Single Server Install](http://docs.splunk.com/Documentation/AddOns/latest/Overview/Singleserverinstall) or a [Distributed Environment Install](http://docs.splunk.com/Documentation/AddOns/latest/Overview/Distributedinstall).
+The Splunk App for RPM is available for download from [Splunkbase](https://splunkbase.splunk.com/app/5596/). For Splunk Cloud, refer to [Install apps in your Splunk Cloud deployment](https://docs.splunk.com/Documentation/SplunkCloud/latest/Admin/SelfServiceAppInstall). For non-Splunk Cloud deployments, refer to the standard methods for Splunk Add-on installs as documented for a [Single Server Install](http://docs.splunk.com/Documentation/AddOns/latest/Overview/Singleserverinstall) or a [Distributed Environment Install](http://docs.splunk.com/Documentation/AddOns/latest/Overview/Distributedinstall).
 
 **This app should be installed on both your search head tier as well as your indexer tier.**
 
