@@ -1,44 +1,80 @@
+[app/ui]
+version = 8.2.2
+modtime = 1652844781.624034000
 
-# Application-level permissions
+[app/launcher]
+version = 8.2.2
+modtime = 1652844781.625272000
 
-[]
+[views/rpa_coe_insights]
+owner = admin
+version = 8.2.2
+modtime = 1659027115.579448000
+
+[views/rpa_drilldown]
+owner = admin
+version = 8.2.2
+modtime = 1659027431.062456000
+
+[views/rpa_business_roi]
+owner = admin
+version = 8.2.2
+modtime = 1659026828.801815000
+
+[views/app_configuration]
+owner = admin
+version = 8.2.2
+modtime = 1659028435.713431000
+
+[views/rpa_security]
+owner = admin
+version = 8.2.2
+modtime = 1659027486.535670000
+
+[indexes/uipath2]
+owner = admin
+version = 8.2.2
+modtime = 1653500441.127378000
+
+[props/nlog]
+owner = admin
+version = 8.2.2
+modtime = 1654124632.075763000
+
+[views/rpm_for_itops_]
+owner = admin
+version = 8.2.2
+modtime = 1659027522.723065000
+
+[props/uipath_logs]
+owner = admin
+version = 8.2.2
+modtime = 1654463209.224913000
+
+[lookups/roi.csv]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 8.2.2
+modtime = 1654572447.040637000
+
+[transforms/rpm_roi]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 8.2.2
+modtime = 1654572266.159066000
+
+[savedsearches/UiPath%20Alert%20Action%20-%20API]
 access = read : [ * ], write : [ admin, power ]
-
-### EVENT TYPES
-
-[eventtypes]
 export = system
+owner = admin
+version = 8.2.2
+modtime = 1656427462.094134000
 
-
-### PROPS
-
-[props]
+[savedsearches/UiPath%20Alert]
+access = read : [ * ], write : [ admin, power ]
 export = system
-
-
-### TRANSFORMS
-
-[transforms]
-export = system
-
-
-### LOOKUPS
-
-[lookups]
-export = system
-
-
-### VIEWSTATES: even normal users should be able to create shared viewstates
-
-[viewstates]
-access = read : [ * ], write : [ * ]
-export = system
-
-[alert_actions]
-export = system
-
-[alerts]
-export = system
-
-[restmap]
-export = system
+owner = admin
+version = 8.2.2
+modtime = 1658884456.736810000
