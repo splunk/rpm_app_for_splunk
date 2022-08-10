@@ -1,11 +1,12 @@
 
-# Using GitHub Webhooks
+# Installing Splunk Universal Forwarder for Windows
 
-GitHub Webhooks are a great way to collect rich information as it occurs. You can easily enable webhooks within the GitHub UI and can even select specific actions on which to trigger a webhook call to Splunk. This is only available at the Organization level and will require this to be done for each Org as desired. To do so, you'll need to configure Splunk as a receiver and then setup the webhooks within GitHub.
+Installing the Splunk Universal Forwarder (UF) allows Splunk to collect the UiPath Robot Exeuction logs in realtime.  The Splunk UF also allows you to collect Host vital resources such as CPU, Memory, Disk, and Network.  The Windows forwarder can also collect Security logs from Event Logs.
 
-## Configuring Splunk to receive Webhooks
 
-Splunk's HTTP Event Collector (HEC) is a quick and easy endpoint built to receive data from other producers like GitHub.
+## Configuring The Splunk Universial Forwarder (UF) for Windows 
+
+The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  Here are step by step instructions to install the Univeral Forwarder and configure the required data inputs.
 
 ### Setting Up Splunk to Listen for Webhooks
 1. Under Settings > Data Inputs, click **HTTP Event Collector**
