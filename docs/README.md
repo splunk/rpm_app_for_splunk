@@ -1,3 +1,5 @@
-# Splunk App for Robotic Process Monitor (RPM) for RPA
+# Configuration Docs - Here is how to configure the Splunk App for RPM
 
-The Splunk App for Robotic Process Monitoring (RPM) is a collection of Splunk Dashboards and Data Collection configurations.  The App also allows you to automate actions to the UiPath API based on data in a Splunk index.
+#1. Prepare Splunk for Data ingest
+#2. Configure Data Collection
+#3. Validate and Use App
