@@ -1,4 +1,4 @@
-# Configuration Documentation
+# Configuration Docs
 
 #1. Prepare Splunk for Data ingest
 #2. Configure Data Collection
