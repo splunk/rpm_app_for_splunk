@@ -27,9 +27,9 @@ The Splunk App for RPM is available for download from [Splunkbase](https://splun
 3. The Orchestrator path `[monitor://C:\Users\Administrator\AppData\Local\UiPath\Logs\*.log]` is the execution path for all Robot events. The 'sourcetype' should be set to 'uipath_logs' to match the extraction configuration within the App to have the JSON parse correctly.
 1. Finally, the Windows `Security` logs should be configured to understand the Authentication and Access of the Robots. This requires the Splunk Universal Forwarder to be run on Robot Windows Machines (not just the Orchestrator).  NOTE: Other Authentications can be configured such as Active Directory to drive the Security Dashboards.  Splunk CIM compliant sources can populate the 'Authentication" datamodel which can be used by this App and Enterprise Security (SIEM).
 
-### Integration Overview dashboard
+### Configuration Validation
 
-There is an *Integration Overview* dashboard listed under *Dashboards* that allows you to monitor API rate limits, audit events fetched, or webhooks received. This dashboard is primarily meant to be used with the `GitHub Audit Log Monitoring Add-On for Splunk` and uses internal Splunk logs. To be able to view them you will probably need elevated privileges in Splunk that include access to the `_internal` index. Please coordinate with your Splunk team if that dashboard is desired.
+Once you have configure the 3 pieces above you can validate basic flow of data from UiPath to Splunk.  The first check is to validate the Universal Forwarders (UF) is communicating with your Splunk deployment.  You can run the search 'index=_internal' then look at the 'host' field.  Here you should see the hostname of your Orchestrator server.  A second check can be to search the 'uipath' index to see if the webhook data is being sent to Splunk.  This validates that the Webhook configuration is negitiatging SSL AND the HEC token created on the HTTP Event Collector is authenticating.
 
 ### Examples
 
