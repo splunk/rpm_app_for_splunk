@@ -29,3 +29,7 @@ Your token is now available to collect data, however we'll need to enable that t
 2. Secondly, lets click on the `Webhooks` option within the Tenant.  This will allow us to configure the Splunk HTTP Event Collector (HEC) as the HTTPS endpoint for the UiPath webhooks.
 
 ![UiPath Webhooks](./images/webhook_images/uipath_webhooks_2.jpg)
+
+3. Lastly, lets input the Splunk HEC URL to stream events from UiPath to Splunk for indexing.  There is a special configuration to accept the Splunk HEC Auth token in the query string.  Which will be covered in the next steap.  Make sure to click the `Disable SSL Verification` since we are using self sign SSL certificates.  Also, make sure to select `Send All Events` in UiPath.
+
+![UiPath Webhooks](./images/webhook_images/uipath_webhook_hec.jpg)
