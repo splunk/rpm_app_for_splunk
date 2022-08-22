@@ -21,4 +21,5 @@
 Your token is now available to collect data, however we'll need to enable that token to allow Query String Authentication using that token. For this, you'll need command line access to your Splunk environment or be using a deployment server to deploy apps to Splunk.
 
 ### Configuring UiPath Orchestrator webhooks
-1. 
+1. First, log into your UiPath Orchestrator and find your `Tenant` to configure the webhook in.
+![UiPath Tenant](./docs/images/webhook_images/uipath_tenant_1.jpg)
