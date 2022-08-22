@@ -22,4 +22,4 @@ Your token is now available to collect data, however we'll need to enable that t
 
 ### Configuring UiPath Orchestrator webhooks
 1. First, log into your UiPath Orchestrator and find your `Tenant` to configure the webhook in.
-![UiPath Tenant](./docs/images/webhook_images/uipath_tenant_1.jpg)
+![UiPath Tenant](./images/webhook_images/uipath_tenant_1.jpg)
