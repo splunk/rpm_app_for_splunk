@@ -21,5 +21,9 @@
 Your token is now available to collect data, however we'll need to enable that token to allow Query String Authentication using that token. For this, you'll need command line access to your Splunk environment or be using a deployment server to deploy apps to Splunk.
 
 ### Configuring UiPath Orchestrator webhooks
+
 1. First, log into your UiPath Orchestrator and find your `Tenant` to configure the webhook in.
 ![UiPath Tenant](./images/webhook_images/uipath_tenant_1.jpg)
+
+2. Secondly, lets click on the `Webhooks` option within the Tenant.  This will allow us to configure the Splunk HTTP Event Collector (HEC) as the HTTPS endpoint for the UiPath webhooks.
+![UiPath Webhooks](./images/webhook_images/uipath_webhooks_2.jpg)
