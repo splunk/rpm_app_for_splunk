@@ -1,1 +1,2 @@
 #Images files
+Adding Images diretory structure to provide screenshots to the documentation.
