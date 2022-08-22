@@ -33,3 +33,11 @@ Your token is now available to collect data, however we'll need to enable that t
 3. Lastly, lets input the Splunk HEC URL to stream events from UiPath to Splunk for indexing.  There is a special configuration to accept the Splunk HEC Auth token in the query string.  Which will be covered in the next steap.  Make sure to click the `Disable SSL Verification` since we are using self sign SSL certificates.  Also, make sure to select `Send All Events` in UiPath.
 
 ![UiPath Webhooks](./images/webhook_images/uipath_webhook_hec.jpg)
+
+### Considerations and Validations ###
+
+The webhook at Splunk conifiguration above will establish and SSL connection between the UiPath Orchestrator leader and the Splunk HEC endpoint.  Here are some considerations.
+
+1. Do you have network and firewall / security group support?  Port 8088 is used as the destination port to the HEC endpoint from the UiPath Orchestrator.  NAT/RNAT rules may be needed.  Relaxing outbound firewalls and forward proxies may be needed.  For inbound, make sure to only allow connections from trusted UiPath IP addresses to filter out other clients.
+2. SSL Certificates.  Although the self signed certificates will negoitate highest ciphers and version of the TLS protocol, using SSL Certificates signed by your CA is best practice and required for proper SSL handshakes.  If this is configured, you can uncheck the `Disable SSL Verification`.  
+3. Validation.  You should now see UiPath events in your `uipath` index.  You can check by running the Splunk search `index=uipath` and running a simple automation in UiPath.
