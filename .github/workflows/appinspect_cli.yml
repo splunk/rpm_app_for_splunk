@@ -40,7 +40,7 @@ jobs:
           old_str="X.Y.Z"
           new_str="1.0.0"
           sed -i "s/$old_str/$new_str/g" package.json
-          sed -i "s/$old_str/$new_str/g" ./Splunk_App_for_RPM/default/app.conf
+          sed -i "s/$old_str/$new_str/g" ./RPM_App_for_Splunk/default/app.conf
 
       - name: Install slim
         run: |
@@ -49,16 +49,16 @@ jobs:
       - name: Create package
         run: |
           mkdir build
-          slim package ./Splunk_App_for_RPM
+          slim package ./RPM_App_for_Splunk
 
       - name: Run App Inspect CLI
         uses: splunk/appinspect-cli-action@v1
         with:
-          app_path: Splunk_App_for_RPM-1.0.0.tar.gz
+          app_path: RPM_App_for_Splunk-1.0.0.tar.gz
           included_tags: cloud, splunk_appinspect
 
       - name: Upload package
         uses: actions/upload-artifact@v3
         with:
-          name: Splunk_App_for_RPM-1.0.0.tar.gz
-          path: ./Splunk_App_for_RPM-1.0.0.tar.gz
+          name: RPM_App_for_Splunk-1.0.0.tar.gz
+          path: ./RPM_App_for_Splunk-1.0.0.tar.gz
