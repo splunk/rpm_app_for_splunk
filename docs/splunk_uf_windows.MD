@@ -10,7 +10,9 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 
 ### Setting up Splunk Universal Forwarder for Windows
 
-1. Download the Splunk Universal Forwarder for Windows.  The .msi makes the installation simple prompting you through `Next` buttons to create configurations.  ![Download Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
+1. Download the Splunk Universal Forwarder for Windows.  The .msi makes the installation simple prompting you through `Next` buttons to create configurations.  
+[Download Splunk Universal Forwarder for Windows](https://www.splunk.com/en_us/download/universal-forwarder.html)
+
 2. Move the .msi to the Windows machine running UiPath Orchestrator.  Then click the installer to begin the Installation wizard which will walk you through the initial setup.
 3. First accept the license agreement and select your Splunk deployment to forward data to.  Once you have done both, click `Next`.
 ![Accept License & forward data to Splunk Cloud or Enterprise](./images/uf_images/splunk_uf_1.jpg)
