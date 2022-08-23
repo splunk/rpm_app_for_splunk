@@ -48,9 +48,9 @@ Once that is complete and webhooks are triggering, you'll want to update the mac
 ## Available Webhook Eventtypes
 <table>
 <tr>
-<th>Splunk Eventtype</th>
-<th>GitHub Webhook Event</th>
-<th>Description</th>
+<th>UiPath Data Source</th>
+<th>Data Description</th>
+<th>Source</th>
 </tr>
 <tr>
 <td>GitHub::Repo</td>
