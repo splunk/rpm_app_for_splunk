@@ -6,9 +6,9 @@ This App is designed to provide quick out the box monitoring of RPA deployments.
 
 The Splunk App for Robotic Process Automation (RPM) is designed to work with the following data sources:
 
-* [UiPath Webhook Configuration](./docs/ghe_audit_logs.MD): UiPath webhook forwarding.
-* [Splunk Windows Universal Forwarder](./docs/github_webhooks.MD): Windows Security Logs.
-* [Splunk File path Monitoring](./docs/splunk_collectd_forwarding_for_ghes.MD): UiPath Orchestrator Logs of Robot Executions.
+* [UiPath Webhook Configuration](./docs/uipath_webhooks_config.MD): UiPath webhook forwarding.
+* [Splunk Windows Universal Forwarder](./docs/splunk_uf_windows.MD): Windows Security Logs.
+* [Splunk File path Monitoring](./docs/splunk_uf_windows.MD): UiPath Orchestrator Logs of Robot Executions.
 
 ## Dashboard Instructions
 
