@@ -52,28 +52,28 @@ version = 8.2.2
 modtime = 1654463209.224913000
 
 [lookups/roi.csv]
-access = read : [ * ], write : [ admin ]
+access = read : [ * ], write : [ admin, sc_admin ]
 export = system
 owner = admin
 version = 8.2.2
 modtime = 1654572447.040637000
 
 [transforms/rpm_roi]
-access = read : [ * ], write : [ admin ]
+access = read : [ * ], write : [ admin, sc_admin ]
 export = system
 owner = admin
 version = 8.2.2
 modtime = 1654572266.159066000
 
 [savedsearches/UiPath%20Alert%20Action%20-%20API]
-access = read : [ * ], write : [ admin, power ]
+access = read : [ * ], write : [ admin, power, sc_admin ]
 export = system
 owner = admin
 version = 8.2.2
 modtime = 1656427462.094134000
 
 [savedsearches/UiPath%20Alert]
-access = read : [ * ], write : [ admin, power ]
+access = read : [ * ], write : [ admin, power, sc_admin ]
 export = system
 owner = admin
 version = 8.2.2
