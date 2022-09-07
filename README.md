@@ -21,7 +21,7 @@ The RPM App for Splunk is available for download from [Splunkbase](https://splun
 ### Configuration
 
 1. The RPM App for Splunk V1 uses a static index `uipath` which will need to be configured in Splunk Cloud or Splunk. 
-2. The UiPath Webhook Configuration forwards UiPath events to a Splunk HEC Collector.  That will need to be configured on port :8088 as a data input in Splunk Cloud or Splunk Enterprise.
+2. The UiPath Webhook Configuration forwards UiPath events to a Splunk HEC Collector.  That will need to be configured on port :8089 as a data input in Splunk Cloud or Splunk Enterprise.
 3. The Orchestrator path `[monitor://C:\Users\Administrator\AppData\Local\UiPath\Logs\*.log]` is the execution path for all Robot events. The 'sourcetype' should be set to 'uipath_logs' to match the extraction configuration within the App to have the JSON parse correctly.
 1. Finally, the Windows `Security` logs should be configured to understand the Authentication and Access of the Robots. This requires the Splunk Universal Forwarder to be run on Robot Windows Machines (not just the Orchestrator).  NOTE: Other Authentications can be configured such as Active Directory to drive the Security Dashboards.  Splunk CIM compliant sources can populate the 'Authentication" datamodel which can be used by this App and Enterprise Security (SIEM).
 
