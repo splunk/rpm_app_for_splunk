@@ -10,7 +10,7 @@ import json
 import logging
 import logging.handlers
 
-
+#the below logging configuration is used for script debugging API calls made to UiPath
 def setup_logger(level):
     logger = logging.getLogger('uipath_action_logger')
     logger.propagate = False
