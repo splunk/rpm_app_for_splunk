@@ -14,12 +14,16 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 [Download Splunk Universal Forwarder for Windows](https://www.splunk.com/en_us/download/universal-forwarder.html)
 
 2. Move the .msi to the Windows machine running UiPath Orchestrator.  Then click the installer to begin the Installation wizard which will walk you through the initial setup.
+
 3. First accept the license agreement and select your Splunk deployment to forward data to.  Once you have done both, click `Next`.
 ![Accept License & forward data to Splunk Cloud or Enterprise](./images/uf_images/splunk_uf_1.jpg)
+
 4. Next enter the Administrator password for the Splunk Admin user.
 ![Authentication for UF account](./images/uf_images/splunk_uf_2.jpg)
+
 5. Next is an optional configuration.  If you already have a Splunk deployment server to manage 100's/1000's of Universal Forwarders, you can point this newly installed UF to pull it's configuration from that server.  Those apps are installed as `deployment apps`.  If you are installing this Universal Forwarder and don't have an deployment server, you can leave the field blank and click `Next`.
 ![Optional - Deployment Server Config](./images/uf_images/splunk_uf_2.jpg)
+
 1. Under the Application option, there should be an entry for `github_json`, however you may need to use the little search bar to find it.
 1. For App Context, you'll want to select **Splunk App for GitHub**</li>
 1. Next select the index created for this data. If none exist, create a new Index. Names like `github` or the like are recommended, depending on corporate naming conventions.
