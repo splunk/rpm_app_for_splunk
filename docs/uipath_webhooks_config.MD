@@ -51,7 +51,7 @@ The webhook at Splunk conifiguration above will establish and SSL connection bet
 </tr>
 <tr>
 <td>Jobs</td>
-<td>Automations Job</td>
+<td>Automations Process</td>
 <td>successful, stopped, and faulted</td>
 </tr>
 <tr>
