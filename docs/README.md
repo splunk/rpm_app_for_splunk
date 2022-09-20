@@ -4,7 +4,7 @@ This section contains all of the documents required to setup the Splunk App for 
 
 #1. Prepare Splunk for Data ingest
 
-Splunk requires 2 data inputs for the App to work.  First is the creation of the [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/9.0.1/Data/UsetheHTTPEventCollector).  This allows UiPath to stream events from webhooks to the HTTPS endpoint.  Second, is the standard [Splunk Listening port :9997](https://docs.splunk.com/Documentation/Splunk/9.0.1/Forwarding/Enableareceiver).  This is for the Splunk Universal Forwarder (UF) for Windows.  The UF does two operations, collecting Windows perfmon (CPU, Mem, Disk, and Network) from the Robots, and Orchestrators and to constantly monitor the log files produced by UiPath.
+Splunk requires 2 data inputs for the App to work.  First is the creation of the [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/9.0.1/Data/UsetheHTTPEventCollector).  This allows UiPath to stream events from webhooks to the HTTPS endpoint.  Second, is the standard [Splunk Listening port :9997](https://docs.splunk.com/Documentation/Splunk/9.0.1/Forwarding/Enableareceiver).  This is for the Splunk Universal Forwarder (UF) for Windows.  The UF does two operations, collecting Windows perfmon (CPU, Mem, Disk, and Network) from the Robots, and logging the execution logs from the UiPath Orchestrator.
 
 #2. Configure Data Collection
 
