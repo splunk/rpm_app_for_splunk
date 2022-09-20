@@ -35,29 +35,14 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 <th>Source</th>
 </tr>
 <tr>
-<td>GitHub::Repo</td>
-<td>Repositories</td>
-<td>Repository created, deleted, archived, unarchived, publicized, privatized, edited, renamed, or transferred.</td>
+<td>uipath</td>
+<td>Webhook to HEC - UiPath push events to HEC</td>
+<td>UiPath webhooks for Job, Queue, Robot, Process events</td>
 </tr>
 <tr>
-<td>GitHub::Push</td>
-<td>Pushes</td>
-<td>Git push to a repository.</td>
-</tr>
-<tr>
-<td>GitHub::PullRequest</td>
-<td>Pull requests</td>
-<td>Pull request opened, closed, reopened, edited, assigned, unassigned, review requested, review request removed, labeled, unlabeled, synchronized, ready for review, converted to draft, locked, unlocked, auto merge enabled, auto merge disabled, milestoned, or demilestoned.</td>
-</tr>
-<tr>
-<td>GitHub::PullRequest::Review</td>
-<td>Pull request reviews</td>
-<td>Pull request review submitted, edited, or dismissed.</td>
-</tr>
-<tr>
-<td>GitHub::CodeScanning</td>
-<td>Code scanning alerts</td>
-<td>Alerts identified by CodeQL and other 3rd party/OSS scanning tools.</td>
+<td>uipath_log</td>
+<td>UiPath Automation Logs</td>
+<td>UiPath Execution logs for automation runs.</td>
 </tr>
 
 </table>
