@@ -26,30 +26,6 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 
 ![Optional - Deployment Server Config](./images/uf_images/splunk_uf_2.jpg)
 
-1. Under the Application option, there should be an entry for `github_json`, however you may need to use the little search bar to find it.
-1. For App Context, you'll want to select **Splunk App for GitHub**</li>
-1. Next select the index created for this data. If none exist, create a new Index. Names like `github` or the like are recommended, depending on corporate naming conventions.
-1. Lastly, click the Review button and confirm the data is correct and hit Submit.
-
-Your token is now available to collect data, however we'll need to enable that token to allow Query String Authentication using that token. For this, you'll need command line access to your Splunk environment or be using a deployment server to deploy apps to Splunk.
-
-To enable Query String Authentication, you'll need to update the `inputs.conf` file within the Splunk App for GitHub local directory. In that file, there will be a stanza with the name and value of the token you created. At the end of that stanza, you'll need to add `allowQueryStringAuth = true` and then restart Splunk. This is best done with the help of your Splunk team, so please reach out to them for assistance on this step.
-
-### Setting Up GitHub Webhooks
-
-Webhooks are a simple push mechanism that will send an event each time the webhook is triggered. Unfortunately, Webhooks are unique to each Organization and will need to be setup for each Org as desired. To do this, a user will need to be an Admin for the Org.
-
-1. In your GitHub Organization Settings page, select Webhooks from the menu on the left.
-1. On this page, you'll see all the existing Webhooks, click the **Add webhook** button to add one to send data to Splunk.
-1. The Payload URL will be the Splunk HTTP Event Collector endpoint that was enabled above. It should look something like: `https://YOUR SPLUNK URL:8088/services/collector/raw?token=THE TOKEN FROM ABOVE`. The default port of 8088 may be different for your Splunk Environment, so please confirm the HEC port with your Splunk Admin team.
-1. For Content Type, you'll want to select `application/json` as the best option.
-1. You can choose to send just `push` events, All events, or manually select specific events from the list available. However, only some events have related Splunk eventtypes available to differentiate them within Splunk. See the table of available eventtypes below.
-1. Once you click Add Webhook, a sample event will be triggered and it's status and response from the HTTP Event Collector should show below. Confirm that the response is OK. Otherwise triage as needed based on the HTTP Response provided.
-
-Once that is complete and webhooks are triggering, you'll want to update the macro used for Webhook based dashboards. To do this:
-1. In Splunk, under Settings > Advanced Search, you'll see an entry for Macros, click that.
-1. There is a macro called `github_webhooks`, you'll need to update it to specify the Index used by the HTTP Event Collector token created earlier. Once saved, any dashboards that report on Webhook events should automatically start displaying data.
-
 
 ## Available Webhook Eventtypes
 <table>
