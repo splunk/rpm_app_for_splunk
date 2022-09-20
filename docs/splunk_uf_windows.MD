@@ -27,7 +27,7 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 ![Optional - Deployment Server Config](./images/uf_images/splunk_uf_2.jpg)
 
 
-## Available Webhook Eventtypes
+## Available UiPath data SourceTypes
 <table>
 <tr>
 <th>UiPath Data Source</th>
