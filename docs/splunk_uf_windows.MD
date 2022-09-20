@@ -19,6 +19,7 @@ The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  
 ![Accept License & forward data to Splunk Cloud or Enterprise](./images/uf_images/splunk_uf_1.jpg)
 
 4. Next enter the Administrator password for the Splunk Admin user.
+
 ![Authentication for UF account](./images/uf_images/splunk_uf_2.jpg)
 
 5. Next is an optional configuration.  If you already have a Splunk deployment server to manage 100's/1000's of Universal Forwarders, you can point this newly installed UF to pull it's configuration from that server.  Those apps are installed as `deployment apps`.  If you are installing this Universal Forwarder and don't have an deployment server, you can leave the field blank and click `Next`.
