@@ -42,37 +42,26 @@ The webhook at Splunk conifiguration above will establish and SSL connection bet
 2. SSL Certificates.  Although the self signed certificates will negoitate highest ciphers and version of the TLS protocol, using SSL Certificates signed by your CA is best practice and required for proper SSL handshakes.  If this is configured, you can uncheck the `Disable SSL Verification`.  
 3. Validation.  You should now see UiPath events in your `uipath` index.  You can check by running the Splunk search `index=uipath` and running a simple automation in UiPath.
 
-## Available Webhook Eventtypes
+## UiPath Webhook Data
 <table>
 <tr>
-<th>Splunk Eventtype</th>
-<th>GitHub Webhook Event</th>
+<th>UiPath EventType</th>
+<th>Uipath Webhook Event</th>
 <th>Description</th>
 </tr>
 <tr>
-<td>GitHub::Repo</td>
-<td>Repositories</td>
-<td>Repository created, deleted, archived, unarchived, publicized, privatized, edited, renamed, or transferred.</td>
+<td>Jobs</td>
+<td>Automations Process</td>
+<td>successful, stopped, and faulted</td>
 </tr>
 <tr>
-<td>GitHub::Push</td>
-<td>Pushes</td>
-<td>Git push to a repository.</td>
+<td>Queues</td>
+<td>Queued Automation Jobs</td>
+<td>The auto-incremented row ID of the queue item in the Orchestrator database</td>
 </tr>
 <tr>
-<td>GitHub::PullRequest</td>
-<td>Pull requests</td>
-<td>Pull request opened, closed, reopened, edited, assigned, unassigned, review requested, review request removed, labeled, unlabeled, synchronized, ready for review, converted to draft, locked, unlocked, auto merge enabled, auto merge disabled, milestoned, or demilestoned.</td>
+<td>Robot Logs</td>
+<td>Logs from the Robot processing the Automations</td>
+<td>i.e. Machine Id - The Id of the machine (robot) that generated the log message.</td>
 </tr>
-<tr>
-<td>GitHub::PullRequest::Review</td>
-<td>Pull request reviews</td>
-<td>Pull request review submitted, edited, or dismissed.</td>
-</tr>
-<tr>
-<td>GitHub::CodeScanning</td>
-<td>Code scanning alerts</td>
-<td>Alerts identified by CodeQL and other 3rd party/OSS scanning tools.</td>
-</tr>
-
 </table>
