@@ -1,14 +1,16 @@
 
-# Installing Splunk Universal Forwarder for Windows
+# Configuring UiPath Orchestrator to send logs to Splunk HEC collector for RPM App for Splunk
 
-Installing the Splunk Universal Forwarder (UF) allows Splunk to collect the UiPath Robot Exeuction logs in realtime.  The Splunk UF also allows you to collect Host vital resources such as CPU, Memory, Disk, and Network.  The Windows forwarder can also collect Security logs from Event Logs.
+Changing the UiPath nLog configuration will enable UiPath Orchestrator activity logs to Splunk removing the need for a webhook and Splunk universal forwarder configurations.
 
 
-## Configuring The Splunk Universial Forwarder (UF) for Windows 
+## Updates to UiPath.Orchestrator.dll.config file
 
-The Splunk Universal Forwarder is installed on the UiPath Orchestrator Server.  Here are step by step instructions to install the Univeral Forwarder and configure the required data inputs.
+Add "NLog.Assembly.Splunk" to the UiPath.Orchestrator.dll.config file as shown below.
 
-### Setting up Splunk Universal Forwarder for Windows
+![Authentication for UF account](./images/uf_images/splunk_uf_2.jpg)
+
+### For that Nlog.Targets.Splunk assembly, copy Nlog.Targets.Splunk.dll (net5.0 version) to the C:\Uipath\Orchestrator folder
 
 1. Download the Splunk Universal Forwarder for Windows.  The .msi makes the installation simple prompting you through `Next` buttons to create configurations.  
 [Download Splunk Universal Forwarder for Windows](https://www.splunk.com/en_us/download/universal-forwarder.html)
